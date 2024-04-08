@@ -1,0 +1,8 @@
+1. creo el nombre de la carpeta.
+2. lo arrastro al visual.
+3. habro la terminal y copio e comando para inicir con nestjs que es:     npm i -g @nestjs/cli      / si no me da le quito el -g.
+4. para iniciar a trabajar con nestjs con todos sus carpetas colocamos el comando en la terminal y copio:    nest new    (despues del new coloco el nombre de como quiero que se llame).
+5. no se puede olvidar instalar los frenworks que necesite uno de ellos seria este :    npm i @nestjs/mongoose mongoose.
+6. como estamos trabajando con register y login instalar las otras librerias: mongoose , bcrypt, jsonwebtoken.
+7. no se puede olvidar conectar compass en add.modules.ts
+8. comenzar agregar el CRUD.
