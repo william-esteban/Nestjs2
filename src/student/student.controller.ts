@@ -50,24 +50,10 @@ async registerStudent(@Body() body){
 
 
 @Post('login')
-async login(@Body('email') email: string, @Body('password') password: string){
-
-    const user = await this.StudentService.findOne(email);
-       if(!user){
-        throw new HttpException('invalid username or password', HttpStatus.BAD_REQUEST);
-    }
-
-    const isPasswordValid = await bcrypt.compare(user.password, user.password);
+async  register(@Body() body){
+    return this.StudentService.validate(body.email, body.password);
     
-    if(!isPasswordValid){
-        throw new HttpException('invalid username or password', HttpStatus.BAD_REQUEST);
-    }
+}
 
-    const token = jwt.sign({}, jwt_secret,{
-        expiresIn: '1h'
-    })
-    return { message: 'logged in successfully', token}
-    
-  }
 
 }

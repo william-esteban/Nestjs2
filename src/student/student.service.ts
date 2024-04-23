@@ -1,8 +1,9 @@
-import { Injectable, Body,  } from '@nestjs/common';
+import { Injectable, Body, HttpException, HttpStatus,  } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Student } from './student.entity';
 import { Model } from'mongoose';
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 
 @Injectable()
 export class StudentService {
@@ -40,8 +41,25 @@ export class StudentService {
     }
    
     // register
-    async findOne(email: string): Promise<Student>{
-        return await this.StudentModule.findOne({email: email}).exec();
+   async emailStudent(email: string): Promise<Student>{
+    return await this.StudentModule.findOne({email: email}).exec();
+   }
+
+    async validate(email: string, password: string){
+        const user = await this.emailStudent(email);
+        if(!user){
+            throw new HttpException('Usuario o contraseña incorrectos email', HttpStatus.BAD_REQUEST);
+           
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            throw new HttpException('Usuario o contraseña incorrectos', HttpStatus.BAD_REQUEST);
+        }
+        const jwt_secret = '#fadfdgfshdgfhghdjhg';
+        const token = jwt.sign({userId: user._id}, jwt_secret, {expiresIn: '1h'});
+        return { message: 'logiado correctamente', token}
+      
     }
     
 }
